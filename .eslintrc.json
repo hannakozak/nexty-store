@@ -17,6 +17,7 @@
 		"import/no-mutable-exports": "error",
 		"import/no-cycle": "error",
 		"import/no-default-export": "error",
+		"@typescript-eslint/no-unsafe-assignment": "off",
 		"@typescript-eslint/ban-types": [
 			"error",
 			{
