@@ -18,6 +18,7 @@
 		"import/no-cycle": "error",
 		"import/no-default-export": "error",
 		"@typescript-eslint/no-unsafe-assignment": "off",
+		"no-unsafe-member-access": "off",
 		"@typescript-eslint/ban-types": [
 			"error",
 			{
