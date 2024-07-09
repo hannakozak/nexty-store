@@ -10800,6 +10800,15 @@ export type _SystemDateTimeFieldVariation =
   | 'combined'
   | 'localization';
 
+export type ProductGetByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ProductGetByIdQuery = { product?: { id: string, name: string, description: string, price: number, averageRating?: number | null, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null };
+
+export type ProductItemFragment = { id: string, name: string, description: string, price: number, averageRating?: number | null, categories: Array<{ name: string }>, images: Array<{ url: string }> };
+
 export type ProductListItemFragment = { id: string, name: string, price: number, averageRating?: number | null, categories: Array<{ name: string }>, images: Array<{ url: string }> };
 
 export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
@@ -10821,6 +10830,21 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const ProductItemFragmentDoc = new TypedDocumentString(`
+    fragment ProductItem on Product {
+  id
+  name
+  description
+  categories(first: 1) {
+    name
+  }
+  images(first: 1) {
+    url
+  }
+  price
+  averageRating
+}
+    `, {"fragmentName":"ProductItem"}) as unknown as TypedDocumentString<ProductItemFragment, unknown>;
 export const ProductListItemFragmentDoc = new TypedDocumentString(`
     fragment ProductListItem on Product {
   id
@@ -10835,6 +10859,25 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
   averageRating
 }
     `, {"fragmentName":"ProductListItem"}) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
+export const ProductGetByIdDocument = new TypedDocumentString(`
+    query ProductGetById($id: ID!) {
+  product(where: {id: $id}) {
+    ...ProductItem
+  }
+}
+    fragment ProductItem on Product {
+  id
+  name
+  description
+  categories(first: 1) {
+    name
+  }
+  images(first: 1) {
+    url
+  }
+  price
+  averageRating
+}`) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
     query ProductsGetList {
   products(first: 10) {
