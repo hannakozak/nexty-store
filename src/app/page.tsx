@@ -1,9 +1,15 @@
-import { ProductList } from "@/components/productsList/ProductsList";
+import { notFound } from "next/navigation";
+import { ProductsList } from "@/components/productsList/ProductsList";
+import { getProductsList } from "@/api/products";
 
-export default function Home() {
+export default async function Home() {
+	const products = await getProductsList();
+	if (!products) {
+		notFound();
+	}
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between">
-			<ProductList />
+			<ProductsList products={products} />
 		</main>
 	);
 }

@@ -1,9 +1,15 @@
-import { ProductList } from "@/components/productsList/ProductsList";
+import { notFound } from "next/navigation";
+import { getProductsList } from "@/api/products";
+import { ProductsList } from "@/components/productsList/ProductsList";
 
-const ProductsPage = () => {
+const ProductsPage = async () => {
+	const products = await getProductsList();
+	if (!products) {
+		notFound();
+	}
 	return (
 		<>
-			<ProductList />
+			<ProductsList products={products} />
 		</>
 	);
 };
