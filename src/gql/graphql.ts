@@ -51,6 +51,7 @@ export type Asset = Entity & Node & {
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID']['output'];
+  imageCategory: Array<Category>;
   imageCollection: Array<Collection>;
   /** System Locale field */
   locale: Locale;
@@ -105,6 +106,20 @@ export type AssetHistoryArgs = {
   limit?: Scalars['Int']['input'];
   skip?: Scalars['Int']['input'];
   stageOverride?: InputMaybe<Stage>;
+};
+
+
+/** Asset system model */
+export type AssetImageCategoryArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+  orderBy?: InputMaybe<CategoryOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<CategoryWhereInput>;
 };
 
 
@@ -208,6 +223,7 @@ export type AssetCreateInput = {
   fileName: Scalars['String']['input'];
   handle: Scalars['String']['input'];
   height?: InputMaybe<Scalars['Float']['input']>;
+  imageCategory?: InputMaybe<CategoryCreateManyInlineInput>;
   imageCollection?: InputMaybe<CollectionCreateManyInlineInput>;
   /** Inline mutations for managing document localizations excluding the default locale */
   localizations?: InputMaybe<AssetCreateLocalizationsInput>;
@@ -310,6 +326,9 @@ export type AssetManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  imageCategory_every?: InputMaybe<CategoryWhereInput>;
+  imageCategory_none?: InputMaybe<CategoryWhereInput>;
+  imageCategory_some?: InputMaybe<CategoryWhereInput>;
   imageCollection_every?: InputMaybe<CollectionWhereInput>;
   imageCollection_none?: InputMaybe<CollectionWhereInput>;
   imageCollection_some?: InputMaybe<CollectionWhereInput>;
@@ -387,6 +406,7 @@ export type AssetUpdateInput = {
   fileName?: InputMaybe<Scalars['String']['input']>;
   handle?: InputMaybe<Scalars['String']['input']>;
   height?: InputMaybe<Scalars['Float']['input']>;
+  imageCategory?: InputMaybe<CategoryUpdateManyInlineInput>;
   imageCollection?: InputMaybe<CollectionUpdateManyInlineInput>;
   /** Manage document localizations */
   localizations?: InputMaybe<AssetUpdateLocalizationsInput>;
@@ -621,6 +641,9 @@ export type AssetWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  imageCategory_every?: InputMaybe<CategoryWhereInput>;
+  imageCategory_none?: InputMaybe<CategoryWhereInput>;
+  imageCategory_some?: InputMaybe<CategoryWhereInput>;
   imageCollection_every?: InputMaybe<CollectionWhereInput>;
   imageCollection_none?: InputMaybe<CollectionWhereInput>;
   imageCollection_some?: InputMaybe<CollectionWhereInput>;
@@ -750,6 +773,7 @@ export type Category = Entity & Node & {
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID']['output'];
+  image?: Maybe<Asset>;
   /** System Locale field */
   locale: Locale;
   /** Get the other localizations for this document */
@@ -797,6 +821,13 @@ export type CategoryHistoryArgs = {
   limit?: Scalars['Int']['input'];
   skip?: Scalars['Int']['input'];
   stageOverride?: InputMaybe<Stage>;
+};
+
+
+/** Category of products, e.g. Menswear. */
+export type CategoryImageArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
 };
 
 
@@ -879,6 +910,7 @@ export type CategoryCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** description input for default locale (en) */
   description?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<AssetCreateOneInlineInput>;
   /** Inline mutations for managing document localizations excluding the default locale */
   localizations?: InputMaybe<CategoryCreateLocalizationsInput>;
   /** name input for default locale (en) */
@@ -978,6 +1010,7 @@ export type CategoryManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  image?: InputMaybe<AssetWhereInput>;
   products_every?: InputMaybe<ProductWhereInput>;
   products_none?: InputMaybe<ProductWhereInput>;
   products_some?: InputMaybe<ProductWhereInput>;
@@ -1037,6 +1070,7 @@ export type CategoryOrderByInput =
 export type CategoryUpdateInput = {
   /** description input for default locale (en) */
   description?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<AssetUpdateOneInlineInput>;
   /** Manage document localizations */
   localizations?: InputMaybe<CategoryUpdateLocalizationsInput>;
   /** name input for default locale (en) */
@@ -1227,6 +1261,7 @@ export type CategoryWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  image?: InputMaybe<AssetWhereInput>;
   name?: InputMaybe<Scalars['String']['input']>;
   /** All values containing the given string. */
   name_contains?: InputMaybe<Scalars['String']['input']>;
@@ -10807,12 +10842,12 @@ export type CategoriesGetListQuery = { categories: Array<{ id: string, name: str
 
 export type CategoryFragment = { id: string, name: string, slug: string };
 
-export type CollectionFragment = { id: string, name: string, slug: string };
+export type CollectionFragment = { id: string, name: string, slug: string, image: { id: string, url: string } };
 
 export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CollectionsGetListQuery = { collections: Array<{ id: string, name: string, slug: string }> };
+export type CollectionsGetListQuery = { collections: Array<{ id: string, name: string, slug: string, image: { id: string, url: string } }> };
 
 export type ProductGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -10856,6 +10891,10 @@ export const CollectionFragmentDoc = new TypedDocumentString(`
   id
   name
   slug
+  image {
+    id
+    url
+  }
 }
     `, {"fragmentName":"Collection"}) as unknown as TypedDocumentString<CollectionFragment, unknown>;
 export const ProductItemFragmentDoc = new TypedDocumentString(`
@@ -10908,6 +10947,10 @@ export const CollectionsGetListDocument = new TypedDocumentString(`
   id
   name
   slug
+  image {
+    id
+    url
+  }
 }`) as unknown as TypedDocumentString<CollectionsGetListQuery, CollectionsGetListQueryVariables>;
 export const ProductGetByIdDocument = new TypedDocumentString(`
     query ProductGetById($id: ID!) {
