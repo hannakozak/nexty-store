@@ -10838,9 +10838,9 @@ export type _SystemDateTimeFieldVariation =
 export type CategoriesGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CategoriesGetListQuery = { categories: Array<{ id: string, name: string, slug: string }> };
+export type CategoriesGetListQuery = { categories: Array<{ id: string, name: string, slug: string, image?: { id: string, url: string } | null }> };
 
-export type CategoryFragment = { id: string, name: string, slug: string };
+export type CategoryFragment = { id: string, name: string, slug: string, image?: { id: string, url: string } | null };
 
 export type CollectionFragment = { id: string, name: string, slug: string, image: { id: string, url: string } };
 
@@ -10884,6 +10884,10 @@ export const CategoryFragmentDoc = new TypedDocumentString(`
   id
   name
   slug
+  image {
+    id
+    url
+  }
 }
     `, {"fragmentName":"Category"}) as unknown as TypedDocumentString<CategoryFragment, unknown>;
 export const CollectionFragmentDoc = new TypedDocumentString(`
@@ -10936,6 +10940,10 @@ export const CategoriesGetListDocument = new TypedDocumentString(`
   id
   name
   slug
+  image {
+    id
+    url
+  }
 }`) as unknown as TypedDocumentString<CategoriesGetListQuery, CategoriesGetListQueryVariables>;
 export const CollectionsGetListDocument = new TypedDocumentString(`
     query CollectionsGetList {

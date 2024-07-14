@@ -2,4 +2,8 @@ fragment Category on Category {
 	id
 	name
 	slug
+	image {
+		id
+		url
+	}
 }
