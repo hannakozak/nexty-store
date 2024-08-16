@@ -1,15 +1,20 @@
-import { notFound } from "next/navigation";
+import { getProductsTotalCount } from "@/api/products";
+import { Pagination } from "@/components/Pagination/Pagination";
 import { ProductsList } from "@/components/productsList/ProductsList";
-import { getProductsList } from "@/api/products";
 
-export default async function Home() {
-	const products = await getProductsList();
-	if (!products) {
-		notFound();
-	}
+type HomePageProps = {
+	searchParams: { page: number; query?: string };
+};
+
+export default async function Home({ searchParams }: HomePageProps) {
+	const productsTotalCount = await getProductsTotalCount();
+	const totalPages = Math.ceil(productsTotalCount / 8);
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between">
-			<ProductsList products={products} />
+			<div className="mt-5 flex w-full justify-center">
+				<ProductsList currentPage={searchParams.page} />
+			</div>
+			<Pagination totalPages={totalPages} />
 		</main>
 	);
 }
