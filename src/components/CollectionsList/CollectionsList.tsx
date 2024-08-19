@@ -7,7 +7,7 @@ export const CollectionsList = async ({ collections }: { collections: Collection
 		<ul className="my-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
 			{collections.map((collection) => (
 				<li key={collection.id}>
-					<Link href={`/collections/${collection.slug}`}>
+					<Link href={`/collections/${collection.slug}?page=1`}>
 						{" "}
 						<ProductCoverImage
 							src={collection.image.url}

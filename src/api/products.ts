@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { unstable_noStore as noStore } from "next/cache";
 import { executeGraphql } from "@/api/graphqlApi";
 import {
 	ProductsGetByCategorySlugDocument,
 	ProductsGetByCollectionSlugDocument,
 	ProductsGetListDocument,
+	ProductsGetTotalCountByCategorySlugDocument,
+	ProductsGetTotalCountByCollectionSlugDocument,
 	ProductsGetTotalCountDocument,
 } from "@/gql/graphql";
 
@@ -20,11 +23,15 @@ export const getProductsList = async (currentPage: number = 1) => {
 	return graphqlResponse.products;
 };
 
-export const getProductsByCategorySLug = async (slug: string) => {
+export const getProductsByCategorySLug = async (slug: string, currentPage: number = 1) => {
+	const productsPerPage = 8;
+	const offset = (currentPage - 1) * productsPerPage;
 	const graphqlResponse = await executeGraphql({
 		query: ProductsGetByCategorySlugDocument,
 		variables: {
 			slug: slug,
+			productsPerPage: productsPerPage,
+			offset: offset,
 		},
 		next: {
 			revalidate: 1,
@@ -33,11 +40,15 @@ export const getProductsByCategorySLug = async (slug: string) => {
 	return graphqlResponse.categories[0].products;
 };
 
-export const getProductsByCollectionSLug = async (slug: string) => {
+export const getProductsByCollectionSLug = async (slug: string, currentPage: number = 1) => {
+	const productsPerPage = 8;
+	const offset = (currentPage - 1) * productsPerPage;
 	const graphqlResponse = await executeGraphql({
 		query: ProductsGetByCollectionSlugDocument,
 		variables: {
 			slug: slug,
+			productsPerPage: productsPerPage,
+			offset: offset,
 		},
 		next: {
 			revalidate: 1,
@@ -51,6 +62,21 @@ export const getProductsTotalCount = async () => {
 		query: ProductsGetTotalCountDocument,
 		variables: {},
 	});
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+	return graphqlResponse.productsConnection.aggregate.count;
+};
+
+export const getProductsTotalCountByCategorySlug = async (slug: string) => {
+	const graphqlResponse = await executeGraphql({
+		query: ProductsGetTotalCountByCategorySlugDocument,
+		variables: { slug: slug },
+	});
+	return graphqlResponse.productsConnection.aggregate.count;
+};
+
+export const getProductsTotalCountByCollectionSlug = async (slug: string) => {
+	const graphqlResponse = await executeGraphql({
+		query: ProductsGetTotalCountByCollectionSlugDocument,
+		variables: { slug: slug },
+	});
 	return graphqlResponse.productsConnection.aggregate.count;
 };
