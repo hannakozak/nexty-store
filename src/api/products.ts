@@ -10,20 +10,24 @@ import {
 	ProductsGetTotalCountDocument,
 } from "@/gql/graphql";
 
-export const getProductsList = async (currentPage: number = 1) => {
+export const getProductsList = async (query: string, currentPage: number = 1) => {
 	noStore();
 	const productsPerPage = 8;
 	const offset = (currentPage - 1) * productsPerPage;
 	const graphqlResponse = await executeGraphql({
 		query: ProductsGetListDocument,
-		variables: { productsPerPage: productsPerPage, offset: offset },
+		variables: { query: query, productsPerPage: productsPerPage, offset: offset },
 		next: {},
 	});
 
 	return graphqlResponse.products;
 };
 
-export const getProductsByCategorySLug = async (slug: string, currentPage: number = 1) => {
+export const getProductsByCategorySLug = async (
+	slug: string,
+	currentPage: number = 1,
+	query: string,
+) => {
 	const productsPerPage = 8;
 	const offset = (currentPage - 1) * productsPerPage;
 	const graphqlResponse = await executeGraphql({
@@ -32,6 +36,7 @@ export const getProductsByCategorySLug = async (slug: string, currentPage: numbe
 			slug: slug,
 			productsPerPage: productsPerPage,
 			offset: offset,
+			query: query,
 		},
 		next: {
 			revalidate: 1,
@@ -40,7 +45,11 @@ export const getProductsByCategorySLug = async (slug: string, currentPage: numbe
 	return graphqlResponse.categories[0].products;
 };
 
-export const getProductsByCollectionSLug = async (slug: string, currentPage: number = 1) => {
+export const getProductsByCollectionSLug = async (
+	slug: string,
+	currentPage: number = 1,
+	query: string,
+) => {
 	const productsPerPage = 8;
 	const offset = (currentPage - 1) * productsPerPage;
 	const graphqlResponse = await executeGraphql({
@@ -49,6 +58,7 @@ export const getProductsByCollectionSLug = async (slug: string, currentPage: num
 			slug: slug,
 			productsPerPage: productsPerPage,
 			offset: offset,
+			query: query,
 		},
 		next: {
 			revalidate: 1,

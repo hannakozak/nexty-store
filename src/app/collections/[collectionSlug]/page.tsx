@@ -5,14 +5,17 @@ import { Pagination } from "@/components/Pagination/Pagination";
 
 type CollectionPageProps = {
 	params: { collectionSlug: string };
-	searchParams: { page: number; query?: string };
+	searchParams: { page: string; query?: string };
 };
 
 export default async function CollectionPage({ params, searchParams }: CollectionPageProps) {
+	const query = searchParams?.query || "";
+	const currentPage = Number(searchParams?.page) || 1;
+
 	const productsTotalCount = await getProductsTotalCountByCollectionSlug(params.collectionSlug);
 	const totalPages = Math.ceil(productsTotalCount / 8);
 
-	const products = await getProductsByCollectionSLug(params.collectionSlug, searchParams.page);
+	const products = await getProductsByCollectionSLug(params.collectionSlug, currentPage, query);
 	if (!products) {
 		return notFound();
 	}

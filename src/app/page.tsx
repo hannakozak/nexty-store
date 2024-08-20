@@ -8,10 +8,13 @@ type HomePageProps = {
 };
 
 export default async function Home({ searchParams }: HomePageProps) {
+	const query = searchParams?.query || "";
+	const currentPage = Number(searchParams?.page) || 1;
+
 	const productsTotalCount = await getProductsTotalCount();
 	const totalPages = Math.ceil(productsTotalCount / 8);
 
-	const products = await getProductsList(searchParams.page);
+	const products = await getProductsList(query, currentPage);
 	if (!products) {
 		notFound();
 	}

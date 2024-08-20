@@ -1,6 +1,11 @@
-query ProductsGetByCollectionSlug($slug: String!, $productsPerPage: Int!, $offset: Int!) {
+query ProductsGetByCollectionSlug(
+	$slug: String!
+	$productsPerPage: Int!
+	$offset: Int!
+	$query: String!
+) {
 	collections(where: { slug: $slug }) {
-		products(first: $productsPerPage, skip: $offset) {
+		products(first: $productsPerPage, skip: $offset, where: { _search: $query }) {
 			...ProductListItem
 		}
 	}

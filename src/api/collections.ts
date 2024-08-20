@@ -1,10 +1,12 @@
 import { executeGraphql } from "@/api/graphqlApi";
 import { CollectionsGetListDocument } from "@/gql/graphql";
 
-export const getCollectionsList = async () => {
+export const getCollectionsList = async (query: string) => {
 	const graphqlResponse = await executeGraphql({
 		query: CollectionsGetListDocument,
-		variables: {},
+		variables: {
+			query: query,
+		},
 		next: {
 			revalidate: 1,
 		},

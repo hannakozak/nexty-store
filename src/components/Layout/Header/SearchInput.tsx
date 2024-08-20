@@ -1,15 +1,23 @@
 "use client";
 import { Search } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export const SearchInput = () => {
-	const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
-	const [searchQuery, setSearchQuery] = useState("");
+	const searchParams = useSearchParams();
+	const pathname = usePathname();
 
-	const handleSearch = (event: React.FormEvent) => {
-		event.preventDefault();
-		console.log("search");
-		setIsMobileSearchOpen(false);
+	const { replace } = useRouter();
+	const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+
+	const handleSearch = (term: string) => {
+		const params = new URLSearchParams(searchParams);
+		if (term) {
+			params.set("query", term);
+		} else {
+			params.delete("query");
+		}
+		replace(`${pathname}?${params.toString()}`);
 	};
 
 	return (
@@ -27,21 +35,20 @@ export const SearchInput = () => {
 					isMobileSearchOpen ? "fixed left-0 right-0 top-0 z-20" : "hidden"
 				} w-full md:static md:block md:w-auto`}
 			>
-				<form
-					onSubmit={handleSearch}
-					className="relative mx-auto mt-4 flex w-11/12 items-center rounded-full border border-gray-300 bg-white px-2 py-2 md:mt-0 md:w-64"
-				>
+				<div className="relative mx-auto mt-4 flex w-11/12 items-center rounded-full border border-gray-300 bg-white px-2 py-2 md:mt-0 md:w-64">
+					<label htmlFor="search" className="sr-only">
+						Search
+					</label>
 					<input
 						type="text"
 						className="flex-grow px-2 pl-5 focus:outline-none"
 						placeholder="Search..."
-						value={searchQuery}
-						onChange={(e) => setSearchQuery(e.target.value)}
+						defaultValue={searchParams.get("query")?.toString()}
+						onChange={(e) => handleSearch(e.target.value)}
 					/>
-					<button type="submit" className="absolute right-3">
-						<Search className="h-6 w-6" />
-					</button>
-				</form>
+
+					<Search className="absolute right-3 h-6 w-6" />
+				</div>
 			</div>
 		</div>
 	);

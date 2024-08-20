@@ -5,14 +5,16 @@ import { Pagination } from "@/components/Pagination/Pagination";
 
 type CategoryPageProps = {
 	params: { categorySlug: string };
-	searchParams: { page: number; query?: string };
+	searchParams: { page: string; query?: string };
 };
 
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
+	const query = searchParams?.query || "";
+	const currentPage = Number(searchParams?.page) || 1;
 	const productsTotalCount = await getProductsTotalCountByCategorySlug(params.categorySlug);
 	const totalPages = Math.ceil(productsTotalCount / 8);
 
-	const products = await getProductsByCategorySLug(params.categorySlug, searchParams.page);
+	const products = await getProductsByCategorySLug(params.categorySlug, currentPage, query);
 	if (!products) {
 		return notFound();
 	}

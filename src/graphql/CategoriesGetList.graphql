@@ -1,5 +1,5 @@
-query CategoriesGetList {
-	categories {
+query CategoriesGetList($query: String!) {
+	categories(where: { _search: $query }) {
 		...Category
 	}
 }

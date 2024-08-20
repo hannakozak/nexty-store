@@ -10835,7 +10835,9 @@ export type _SystemDateTimeFieldVariation =
   | 'combined'
   | 'localization';
 
-export type CategoriesGetListQueryVariables = Exact<{ [key: string]: never; }>;
+export type CategoriesGetListQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+}>;
 
 
 export type CategoriesGetListQuery = { categories: Array<{ id: string, name: string, slug: string, image?: { id: string, url: string } | null }> };
@@ -10844,7 +10846,9 @@ export type CategoryFragment = { id: string, name: string, slug: string, image?:
 
 export type CollectionFragment = { id: string, name: string, slug: string, image: { id: string, url: string } };
 
-export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
+export type CollectionsGetListQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+}>;
 
 
 export type CollectionsGetListQuery = { collections: Array<{ id: string, name: string, slug: string, image: { id: string, url: string } }> };
@@ -10864,25 +10868,30 @@ export type ProductsGetByCategorySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   productsPerPage: Scalars['Int']['input'];
   offset: Scalars['Int']['input'];
+  query: Scalars['String']['input'];
 }>;
 
 
 export type ProductsGetByCategorySlugQuery = { categories: Array<{ products: Array<{ id: string, name: string, price: number, averageRating?: number | null, categories: Array<{ name: string }>, images: Array<{ url: string }> }> }> };
 
+export type ProductsGetByCollectionSlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+  productsPerPage: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  query: Scalars['String']['input'];
+}>;
+
+
+export type ProductsGetByCollectionSlugQuery = { collections: Array<{ products: Array<{ id: string, name: string, price: number, averageRating?: number | null, categories: Array<{ name: string }>, images: Array<{ url: string }> }> }> };
+
 export type ProductsGetListQueryVariables = Exact<{
+  query: Scalars['String']['input'];
   productsPerPage: Scalars['Int']['input'];
   offset: Scalars['Int']['input'];
 }>;
 
 
 export type ProductsGetListQuery = { products: Array<{ id: string, name: string, price: number, averageRating?: number | null, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
-
-export type ProductsGetByCollectionSlugQueryVariables = Exact<{
-  slug: Scalars['String']['input'];
-}>;
-
-
-export type ProductsGetByCollectionSlugQuery = { collections: Array<{ products: Array<{ id: string, name: string, price: number, averageRating?: number | null, categories: Array<{ name: string }>, images: Array<{ url: string }> }> }> };
 
 export type ProductsGetTotalCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10969,8 +10978,8 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
 }
     `, {"fragmentName":"ProductListItem"}) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
 export const CategoriesGetListDocument = new TypedDocumentString(`
-    query CategoriesGetList {
-  categories {
+    query CategoriesGetList($query: String!) {
+  categories(where: {_search: $query}) {
     ...Category
   }
 }
@@ -10984,8 +10993,8 @@ export const CategoriesGetListDocument = new TypedDocumentString(`
   }
 }`) as unknown as TypedDocumentString<CategoriesGetListQuery, CategoriesGetListQueryVariables>;
 export const CollectionsGetListDocument = new TypedDocumentString(`
-    query CollectionsGetList {
-  collections {
+    query CollectionsGetList($query: String!) {
+  collections(where: {_search: $query}) {
     ...Collection
   }
 }
@@ -11018,9 +11027,9 @@ export const ProductGetByIdDocument = new TypedDocumentString(`
   averageRating
 }`) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
-    query ProductsGetByCategorySlug($slug: String!, $productsPerPage: Int!, $offset: Int!) {
+    query ProductsGetByCategorySlug($slug: String!, $productsPerPage: Int!, $offset: Int!, $query: String!) {
   categories(where: {slug: $slug}) {
-    products(first: $productsPerPage, skip: $offset) {
+    products(first: $productsPerPage, skip: $offset, where: {_search: $query}) {
       ...ProductListItem
     }
   }
@@ -11037,28 +11046,10 @@ export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
   price
   averageRating
 }`) as unknown as TypedDocumentString<ProductsGetByCategorySlugQuery, ProductsGetByCategorySlugQueryVariables>;
-export const ProductsGetListDocument = new TypedDocumentString(`
-    query ProductsGetList($productsPerPage: Int!, $offset: Int!) {
-  products(first: $productsPerPage, skip: $offset) {
-    ...ProductListItem
-  }
-}
-    fragment ProductListItem on Product {
-  id
-  name
-  categories(first: 1) {
-    name
-  }
-  images(first: 1) {
-    url
-  }
-  price
-  averageRating
-}`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
 export const ProductsGetByCollectionSlugDocument = new TypedDocumentString(`
-    query ProductsGetByCollectionSlug($slug: String!) {
+    query ProductsGetByCollectionSlug($slug: String!, $productsPerPage: Int!, $offset: Int!, $query: String!) {
   collections(where: {slug: $slug}) {
-    products {
+    products(first: $productsPerPage, skip: $offset, where: {_search: $query}) {
       ...ProductListItem
     }
   }
@@ -11075,6 +11066,24 @@ export const ProductsGetByCollectionSlugDocument = new TypedDocumentString(`
   price
   averageRating
 }`) as unknown as TypedDocumentString<ProductsGetByCollectionSlugQuery, ProductsGetByCollectionSlugQueryVariables>;
+export const ProductsGetListDocument = new TypedDocumentString(`
+    query ProductsGetList($query: String!, $productsPerPage: Int!, $offset: Int!) {
+  products(first: $productsPerPage, skip: $offset, where: {_search: $query}) {
+    ...ProductListItem
+  }
+}
+    fragment ProductListItem on Product {
+  id
+  name
+  categories(first: 1) {
+    name
+  }
+  images(first: 1) {
+    url
+  }
+  price
+  averageRating
+}`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
 export const ProductsGetTotalCountDocument = new TypedDocumentString(`
     query ProductsGetTotalCount {
   productsConnection {
