@@ -1,3 +1,4 @@
+import { AddToCartButton } from "@/components/Product/AddToCartButton";
 import { ProductDescription } from "@/components/Product/ProductDescriprion";
 import { ProductCoverImage } from "@/components/productsList/ProductCoverImage";
 import { type ProductItemFragment } from "@/gql/graphql";
@@ -18,6 +19,7 @@ export const Product = async ({ product }: ProductProps) => {
 			)}
 			<aside>
 				<ProductDescription product={product} />
+				<AddToCartButton />
 			</aside>
 		</article>
 	);
