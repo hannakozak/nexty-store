@@ -14,9 +14,5 @@ export default async function CategoryProductPage({ searchParams }: CategoriesPa
 		notFound();
 	}
 
-	return (
-		<>
-			<CategoriesList categories={categories} />;
-		</>
-	);
+	return <CategoriesList categories={categories} />;
 }

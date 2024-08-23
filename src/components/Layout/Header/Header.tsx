@@ -1,4 +1,5 @@
 import { ShoppingCart } from "lucide-react";
+import { Suspense } from "react";
 import { SearchInput } from "@/components/Layout/Header/SearchInput";
 import { Navigation } from "@/components/Navigation/Navigation";
 
@@ -10,7 +11,9 @@ export const Header = () => {
 				<div className="group -m-2 flex items-center p-2">
 					<ShoppingCart />
 				</div>
-				<SearchInput />
+				<Suspense>
+					<SearchInput />
+				</Suspense>
 			</nav>
 		</header>
 	);
