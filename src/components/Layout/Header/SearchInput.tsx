@@ -40,6 +40,7 @@ export const SearchInput = () => {
 						Search
 					</label>
 					<input
+						id="search"
 						type="text"
 						className="flex-grow px-2 pl-5 focus:outline-none"
 						placeholder="Search..."
