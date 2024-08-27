@@ -15,7 +15,7 @@ export const Header = async () => {
 			<nav className="fixed right-2 flex gap-3">
 				<Link href={"/cart"} className="group -m-2 flex items-center p-2">
 					<ShoppingCart />
-					<span className="ml-2 text-sm font-medium">{totalQuantity}</span>
+					{cart && <span className="ml-2 text-sm font-medium">{totalQuantity}</span>}
 					<span className="sr-only">Items in cart, view bag</span>
 				</Link>
 				<Suspense>

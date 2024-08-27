@@ -9,8 +9,8 @@ import { type ProductItemFragment } from "@/gql/graphql";
 type ProductProps = {
 	product: ProductItemFragment;
 };
-export const Product = async ({ product }: ProductProps) => {
-	async function addProductToCartAction(_formData: FormData) {
+export const Product = ({ product }: ProductProps) => {
+	async function addProductToCartAction() {
 		"use server";
 		const cart = await getOrCreateCart();
 		await addProductToCart(cart.id, product.id);

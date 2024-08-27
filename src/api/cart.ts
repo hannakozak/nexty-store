@@ -37,9 +37,9 @@ export async function getCartFromCookies() {
 			variables: {
 				id: cartId,
 			},
+			cache: "no-store",
 			next: {
 				tags: ["cart"],
-				revalidate: 0,
 			},
 		});
 		if (cart) {
@@ -48,13 +48,11 @@ export async function getCartFromCookies() {
 	}
 }
 
-export function createCart() {
+export async function createCart() {
 	return executeGraphql({
 		query: CartCreateDocument,
 		variables: {},
-		next: {
-			tags: ["cart"],
-		},
+		cache: "no-store",
 	});
 }
 
@@ -68,23 +66,29 @@ export async function addProductToCart(orderId: string, productId: string) {
 			variables: {
 				id: productId,
 			},
-			next: {
-				tags: ["cart"],
-			},
+			cache: "no-store",
 		});
 		if (!product) {
 			throw new Error("Product not found");
 		}
+
+		const productQuantity = existingCart?.orderItems?.reduce((acc, item) => {
+			if (item.product?.id === product.id) {
+				return acc + item.quantity;
+			}
+
+			return acc;
+		}, 0);
+
 		await executeGraphql({
 			query: CartAddItemDocument,
 			variables: {
 				orderId,
 				productId,
 				total: product?.price,
+				currentQuantity: productQuantity! + 1,
 			},
-			next: {
-				tags: ["cart"],
-			},
+			cache: "no-store",
 		});
 	} else {
 		await executeGraphql({
