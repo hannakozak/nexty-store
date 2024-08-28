@@ -10855,16 +10855,18 @@ export type CartChangeItemQuantityMutation = { updateOrderItem?: { quantity: num
 export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CartCreateMutation = { createOrder?: { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number } | null }> } | null };
+export type CartCreateMutation = { createOrder?: { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, description: string, price: number, slug: string, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null }> } | null };
 
-export type CartFragment = { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number } | null }> };
+export type CartFragment = { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, description: string, price: number, slug: string, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null }> };
 
 export type CartGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type CartGetByIdQuery = { order?: { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number } | null }> } | null };
+export type CartGetByIdQuery = { order?: { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, description: string, price: number, slug: string, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null }> } | null };
+
+export type CartOrderItemFragmentFragment = { id: string, quantity: number, total: number, product?: { id: string, name: string, description: string, price: number, slug: string, images: Array<{ height?: number | null, width?: number | null, url: string }> } | null };
 
 export type CartRemoveItemMutationVariables = Exact<{
   itemId: Scalars['ID']['input'];
@@ -10964,6 +10966,25 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const CartOrderItemFragmentFragmentDoc = new TypedDocumentString(`
+    fragment CartOrderItemFragment on OrderItem {
+  id
+  quantity
+  total
+  product {
+    id
+    name
+    description
+    price
+    slug
+    images(first: 1) {
+      height
+      width
+      url
+    }
+  }
+}
+    `, {"fragmentName":"CartOrderItemFragment"}) as unknown as TypedDocumentString<CartOrderItemFragmentFragment, unknown>;
 export const CartFragmentDoc = new TypedDocumentString(`
     fragment Cart on Order {
   id
@@ -10971,14 +10992,26 @@ export const CartFragmentDoc = new TypedDocumentString(`
     id
     quantity
     total
-    product {
-      id
-      name
-      price
-    }
+    ...CartOrderItemFragment
   }
 }
-    `, {"fragmentName":"Cart"}) as unknown as TypedDocumentString<CartFragment, unknown>;
+    fragment CartOrderItemFragment on OrderItem {
+  id
+  quantity
+  total
+  product {
+    id
+    name
+    description
+    price
+    slug
+    images(first: 1) {
+      height
+      width
+      url
+    }
+  }
+}`, {"fragmentName":"Cart"}) as unknown as TypedDocumentString<CartFragment, unknown>;
 export const CategoryFragmentDoc = new TypedDocumentString(`
     fragment Category on Category {
   id
@@ -11058,10 +11091,23 @@ export const CartCreateDocument = new TypedDocumentString(`
     id
     quantity
     total
-    product {
-      id
-      name
-      price
+    ...CartOrderItemFragment
+  }
+}
+fragment CartOrderItemFragment on OrderItem {
+  id
+  quantity
+  total
+  product {
+    id
+    name
+    description
+    price
+    slug
+    images(first: 1) {
+      height
+      width
+      url
     }
   }
 }`) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
@@ -11077,10 +11123,23 @@ export const CartGetByIdDocument = new TypedDocumentString(`
     id
     quantity
     total
-    product {
-      id
-      name
-      price
+    ...CartOrderItemFragment
+  }
+}
+fragment CartOrderItemFragment on OrderItem {
+  id
+  quantity
+  total
+  product {
+    id
+    name
+    description
+    price
+    slug
+    images(first: 1) {
+      height
+      width
+      url
     }
   }
 }`) as unknown as TypedDocumentString<CartGetByIdQuery, CartGetByIdQueryVariables>;
