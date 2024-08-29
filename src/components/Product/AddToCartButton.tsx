@@ -4,6 +4,7 @@ import { useFormStatus } from "react-dom";
 
 export const AddToCartButton = () => {
 	const status = useFormStatus();
+
 	return (
 		<button
 			type="submit"

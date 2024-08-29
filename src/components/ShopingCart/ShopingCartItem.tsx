@@ -2,6 +2,7 @@ import Link from "next/link";
 import { type CartOrderItemFragmentFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils/formatMoney";
 import { ProductCoverImage } from "@/components/productsList/ProductCoverImage";
+import { ChangeProductQuantity } from "@/app/cart/ChangeItemQuantity";
 
 type ShoppingCartItemProps = {
 	item: CartOrderItemFragmentFragment;
@@ -14,7 +15,7 @@ export const ShoppingCartItem = ({ item }: ShoppingCartItemProps) => {
 
 	return (
 		<>
-			<div className="mx-auto flex max-w-2xl border-t-2 border-t-gray-200 px-4 py-10 sm:px-6 lg:max-w-7xl lg:px-8">
+			<div className="flex max-w-2xl border-t-2 border-t-gray-200 px-4 py-5 sm:px-6 lg:max-w-7xl lg:px-8">
 				<div className="w-1/4">
 					{item.product.images && (
 						<Link href={`/product/${item.product.id}`}>
@@ -32,11 +33,11 @@ export const ShoppingCartItem = ({ item }: ShoppingCartItemProps) => {
 						{item.product.name}
 					</div>
 				</Link>
-				<div className="flex w-full flex-row justify-between">
-					<div className="flex w-full justify-center gap-3 bg-center text-center text-sm font-semibold leading-6 text-gray-500">
-						3
-					</div>
+
+				<div className="flex w-full justify-center self-start text-center text-sm font-semibold leading-6 text-gray-500">
+					<ChangeProductQuantity quantity={item.quantity} itemId={item.id} />
 				</div>
+
 				<div className="text-right text-sm font-semibold leading-6 text-gray-900">
 					{formatMoney(item.product.price / 100)}
 				</div>
