@@ -16,7 +16,7 @@ export const ChangeProductQuantity = ({ quantity, itemId }: ChangeProductQuantit
 	);
 	const router = useRouter();
 	return (
-		<form className="flex items-center gap-3">
+		<form className="flex items-center gap-3 text-sm font-semibold leading-6 text-gray-500">
 			<button
 				data-testid="decrement"
 				className="h-8 w-8 border bg-slate-50"

@@ -13,7 +13,7 @@ export default async function CartPage() {
 			<div>
 				{cart && (
 					<>
-						<div className="mx-8 mb-5 flex justify-between">
+						<div className="mx-8 mb-5 flex justify-between text-sm font-semibold text-gray-700">
 							<h2>Shopping Basket</h2>
 							<p>Price</p>
 						</div>
