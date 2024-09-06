@@ -15,7 +15,7 @@ export const ShoppingCartItem = ({ item }: ShoppingCartItemProps) => {
 
 	return (
 		<>
-			<div className="flex max-w-2xl items-start justify-center border-t-2 border-t-gray-200 px-2 py-5 text-center align-middle sm:items-center sm:px-10 lg:max-w-7xl lg:px-8">
+			<div className="flex max-w-2xl items-center justify-center border-t-2 border-t-gray-200 px-2 py-5 text-center align-middle sm:items-center sm:px-10 lg:max-w-7xl lg:px-8">
 				<div className="flex w-full flex-col items-start sm:flex-row sm:items-center sm:gap-3">
 					{item.product.images && (
 						<Link href={`/product/${item.product.id}`}>
@@ -36,9 +36,7 @@ export const ShoppingCartItem = ({ item }: ShoppingCartItemProps) => {
 					<ChangeProductQuantity quantity={item.quantity} itemId={item.id} />
 				</div>
 
-				<div className="w-1/3 text-right text-sm font-semibold leading-6 text-gray-900">
-					{formatMoney(item.product.price / 100)}
-				</div>
+				<div className="w-1/3 text-right">{formatMoney(item.product.price)}</div>
 			</div>
 		</>
 	);
