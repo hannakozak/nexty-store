@@ -9,7 +9,7 @@ export const AddToCartButton = () => {
 		<button
 			type="submit"
 			disabled={status.pending}
-			className="brighness-100 font-semiboldbold my-10 mb-10 h-14 w-full rounded-md bg-amber-600 text-xl text-white shadow-md hover:bg-amber-800 disabled:cursor-wait disabled:brightness-50"
+			className="brighness-100 font-semiboldbold mt-8 flex w-full justify-center rounded-md bg-amber-900 py-2 align-middle text-white shadow-md hover:brightness-125 disabled:cursor-wait disabled:brightness-50"
 		>
 			Add To Card
 		</button>

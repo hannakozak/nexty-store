@@ -27,7 +27,7 @@ export default async function CartPage() {
 				<form className="my-10">
 					<button
 						type="submit"
-						className="brighness-100 font-semiboldbold flex w-full justify-center rounded-md bg-amber-900 py-2 align-middle text-xl text-white shadow-md hover:brightness-125 disabled:cursor-wait disabled:brightness-50"
+						className="brighness-100 font-semiboldbold flex w-full justify-center rounded-md bg-amber-900 py-2 align-middle text-white shadow-md hover:brightness-125 disabled:cursor-wait disabled:brightness-50"
 					>
 						Checkout
 					</button>
