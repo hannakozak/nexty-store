@@ -1,7 +1,6 @@
 "use client";
 import { type UrlObject } from "url";
 import { type Route } from "next";
-
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ActiveLink } from "@/components/Navigation/ActiveLink";
@@ -14,7 +13,7 @@ type NavLinksProps = {
 
 const navLinks: NavLinksProps[] = [
 	{ href: "/", label: "Home", exact: true },
-	{ href: "/products?page=1", label: "Products", exact: false },
+	{ href: "/products", label: "Products", exact: false },
 	{ href: "/categories", label: "Categories", exact: false },
 	{ href: "/collections", label: "Collections", exact: false },
 ];

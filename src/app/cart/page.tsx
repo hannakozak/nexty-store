@@ -10,7 +10,7 @@ export default async function CartPage() {
 	}
 
 	return (
-		<div className="mt-12 flex w-full flex-col text-sm font-semibold text-gray-600 md:flex-row md:gap-12">
+		<div className="mt-24 flex w-full flex-col text-sm font-semibold text-gray-600 md:flex-row md:gap-12">
 			<div className="w-full md:w-2/3">
 				<div className="mx-8 mb-5 flex justify-between">
 					<h2>Shopping Basket</h2>
