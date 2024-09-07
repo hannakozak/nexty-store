@@ -9,7 +9,7 @@ type ProductCoverImageProps = {
 
 export const ProductCoverImage = ({ src, alt, width, height }: ProductCoverImageProps) => {
 	return (
-		<div className="rounded-md border bg-slate-50">
+		<div className="rounded-md bg-slate-50">
 			<NextImage
 				width={width}
 				height={height}
