@@ -11,7 +11,7 @@ export const Header = async () => {
 	const totalQuantity = cart?.orderItems.reduce((sum, item) => sum + item.quantity, 0);
 
 	return (
-		<header className="fixed top-0 flex flex-col bg-white">
+		<header className="fixed top-0 flex w-full flex-col bg-white">
 			<div className="mx-auto h-12 w-20">
 				<NextImage
 					src="/images/Nexty.png"
