@@ -1,3 +1,6 @@
+"use client";
+
+import { RatingStars } from "@/components/ranking/RankingStars";
 import { type ProductListItemFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils/formatMoney";
 
@@ -26,9 +29,7 @@ export const ProductListItemDescription = ({
 					{categories[0].name}
 				</p>
 			)}
-			<p className="sr-only" data-testid="product-rating">
-				{averageRating}
-			</p>
+			{averageRating && <RatingStars averageRating={averageRating} readOnly={true} />}
 		</div>
 	);
 };

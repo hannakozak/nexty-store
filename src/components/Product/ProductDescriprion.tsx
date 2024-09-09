@@ -1,3 +1,5 @@
+"use client";
+import { RatingStars } from "@/components/ranking/RankingStars";
 import { type ProductItemFragment } from "@/gql/graphql";
 import { formatMoney } from "@/utils/formatMoney";
 
@@ -6,7 +8,7 @@ type ProductDescriptionProps = {
 };
 
 export const ProductDescription = ({
-	product: { name, price, description },
+	product: { name, price, description, averageRating },
 }: ProductDescriptionProps) => {
 	return (
 		<div className="prose flex flex-col">
@@ -17,6 +19,7 @@ export const ProductDescription = ({
 			</p>
 
 			<p className="prose text-sm leading-loose text-gray-600">{description}</p>
+			{averageRating && <RatingStars averageRating={averageRating} readOnly={true} />}
 		</div>
 	);
 };
