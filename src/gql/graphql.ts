@@ -10907,9 +10907,24 @@ export type ProductGetByIdQueryVariables = Exact<{
 
 export type ProductGetByIdQuery = { product?: { id: string, name: string, description: string, price: number, averageRating?: number | null, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null };
 
+export type ProductGetReviewsRatingQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ProductGetReviewsRatingQuery = { reviewsConnection: { edges: Array<{ node: { rating: number } }>, aggregate: { count: number } } };
+
 export type ProductItemFragment = { id: string, name: string, description: string, price: number, averageRating?: number | null, categories: Array<{ name: string }>, images: Array<{ url: string }> };
 
 export type ProductListItemFragment = { id: string, name: string, price: number, averageRating?: number | null, categories: Array<{ name: string }>, images: Array<{ url: string }> };
+
+export type ProductUpdateAverageRatingMutationVariables = Exact<{
+  averageRating: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ProductUpdateAverageRatingMutation = { updateProduct?: { id: string, averageRating?: number | null } | null, publishProduct?: { id: string } | null };
 
 export type ProductsGetByCategorySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -10958,6 +10973,34 @@ export type ProductsGetTotalCountByCollectionSlugQueryVariables = Exact<{
 
 
 export type ProductsGetTotalCountByCollectionSlugQuery = { productsConnection: { aggregate: { count: number } } };
+
+export type ReviewCreateMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  headline: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  rating: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+}>;
+
+
+export type ReviewCreateMutation = { createReview?: { id: string } | null };
+
+export type ReviewGetByProductIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ReviewGetByProductIdQuery = { reviewsConnection: { edges: Array<{ node: { id: string, headline: string, content: string, rating: number, name: string, email: string } }> } };
+
+export type ReviewItemFragment = { id: string, headline: string, content: string, rating: number, name: string, email: string };
+
+export type ReviewPublishMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ReviewPublishMutation = { publishReview?: { id: string } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -11070,6 +11113,16 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
   averageRating
 }
     `, {"fragmentName":"ProductListItem"}) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
+export const ReviewItemFragmentDoc = new TypedDocumentString(`
+    fragment ReviewItem on Review {
+  id
+  headline
+  content
+  rating
+  name
+  email
+}
+    `, {"fragmentName":"ReviewItem"}) as unknown as TypedDocumentString<ReviewItemFragment, unknown>;
 export const CartAddItemDocument = new TypedDocumentString(`
     mutation CartAddItem($orderId: ID!, $total: Int!, $productId: ID!) {
   createOrderItem(
@@ -11213,6 +11266,31 @@ export const ProductGetByIdDocument = new TypedDocumentString(`
   price
   averageRating
 }`) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
+export const ProductGetReviewsRatingDocument = new TypedDocumentString(`
+    query ProductGetReviewsRating($id: ID!) {
+  reviewsConnection(where: {product: {id: $id}}) {
+    edges {
+      node {
+        rating
+      }
+    }
+    aggregate {
+      count
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductGetReviewsRatingQuery, ProductGetReviewsRatingQueryVariables>;
+export const ProductUpdateAverageRatingDocument = new TypedDocumentString(`
+    mutation ProductUpdateAverageRating($averageRating: Int!, $id: ID!) {
+  updateProduct(data: {averageRating: $averageRating}, where: {id: $id}) {
+    id
+    averageRating
+  }
+  publishProduct(to: PUBLISHED, where: {id: $id}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<ProductUpdateAverageRatingMutation, ProductUpdateAverageRatingMutationVariables>;
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
     query ProductsGetByCategorySlug($slug: String!, $productsPerPage: Int!, $offset: Int!, $query: String!) {
   categories(where: {slug: $slug}) {
@@ -11298,3 +11376,37 @@ export const ProductsGetTotalCountByCollectionSlugDocument = new TypedDocumentSt
   }
 }
     `) as unknown as TypedDocumentString<ProductsGetTotalCountByCollectionSlugQuery, ProductsGetTotalCountByCollectionSlugQueryVariables>;
+export const ReviewCreateDocument = new TypedDocumentString(`
+    mutation ReviewCreate($id: ID!, $headline: String!, $content: String!, $rating: Int!, $name: String!, $email: String!) {
+  createReview(
+    data: {headline: $headline, content: $content, rating: $rating, name: $name, email: $email, product: {connect: {id: $id}}}
+  ) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<ReviewCreateMutation, ReviewCreateMutationVariables>;
+export const ReviewGetByProductIdDocument = new TypedDocumentString(`
+    query ReviewGetByProductId($id: ID!) {
+  reviewsConnection(where: {product: {id: $id}}) {
+    edges {
+      node {
+        ...ReviewItem
+      }
+    }
+  }
+}
+    fragment ReviewItem on Review {
+  id
+  headline
+  content
+  rating
+  name
+  email
+}`) as unknown as TypedDocumentString<ReviewGetByProductIdQuery, ReviewGetByProductIdQueryVariables>;
+export const ReviewPublishDocument = new TypedDocumentString(`
+    mutation ReviewPublish($id: ID!) {
+  publishReview(where: {id: $id}, to: PUBLISHED) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<ReviewPublishMutation, ReviewPublishMutationVariables>;
