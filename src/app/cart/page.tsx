@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCartFromCookies } from "@/api/cart";
 import { ShoppingCartItem } from "@/components/ShopingCart/ShopingCartItem";
 import { ShoppingCartSummary } from "@/components/ShopingCart/ShoppingCartSummary";
+import { handleStripePaymentAction } from "@/app/cart/actions";
 
 export default async function CartPage() {
 	const cart = await getCartFromCookies();
@@ -24,7 +25,7 @@ export default async function CartPage() {
 
 			<div className="w-full px-5 md:w-1/3">
 				<ShoppingCartSummary cart={cart} />
-				<form className="my-10">
+				<form action={handleStripePaymentAction} className="my-10">
 					<button
 						type="submit"
 						className="brighness-100 font-semiboldbold flex w-full justify-center rounded-md bg-amber-900 py-2 align-middle text-white shadow-md hover:brightness-125 disabled:cursor-wait disabled:brightness-50"
