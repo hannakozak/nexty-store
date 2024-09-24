@@ -1,24 +1,28 @@
 "use client";
+import { useDebounce } from "@/hooks/useDebounce";
 import { Search } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export const SearchInput = () => {
 	const searchParams = useSearchParams();
-	const pathname = usePathname();
-
-	const { replace } = useRouter();
+	const router = useRouter();
 	const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+	const [searchQuery, setSearchQuery] = useState("");
+	const debouncedSearchTerm = useDebounce(searchQuery, 500);
 
-	const handleSearch = (term: string) => {
-		const params = new URLSearchParams(searchParams);
-		if (term) {
-			params.set("query", term);
-		} else {
-			params.delete("query");
-		}
-		replace(`${pathname}?${params.toString()}`);
+	const handleSearch = (event: React.FormEvent) => {
+		event.preventDefault();
+
+		const encodedSearchQuery = encodeURI(searchQuery);
+		router.push(`/search?query=${encodedSearchQuery}`);
 	};
+
+	useEffect(() => {
+		if (debouncedSearchTerm) {
+			router.push(`/search?query=${debouncedSearchTerm}`);
+		}
+	}, [debouncedSearchTerm, router]);
 
 	return (
 		<div className="relative flex items-center justify-end md:justify-start">
@@ -35,7 +39,10 @@ export const SearchInput = () => {
 					isMobileSearchOpen ? "fixed left-0 right-0 top-0 z-20" : "hidden"
 				} w-full md:static md:block md:w-auto`}
 			>
-				<div className="relative mx-auto mt-4 flex w-11/12 items-center rounded-full border border-gray-300 bg-white px-2 py-2 md:mt-0 md:w-64">
+				<form
+					onSubmit={handleSearch}
+					className="relative mx-auto mt-4 flex w-11/12 items-center rounded-full border border-gray-300 bg-white px-2 py-2 md:mt-0 md:w-64"
+				>
 					<label htmlFor="search" className="sr-only">
 						Search
 					</label>
@@ -45,11 +52,11 @@ export const SearchInput = () => {
 						className="flex-grow px-2 pl-5 focus:outline-none"
 						placeholder="Search..."
 						defaultValue={searchParams.get("query")?.toString()}
-						onChange={(e) => handleSearch(e.target.value)}
+						onChange={(e) => setSearchQuery(e.target.value)}
 					/>
 
 					<Search className="absolute right-3 h-6 w-6" />
-				</div>
+				</form>
 			</div>
 		</div>
 	);
