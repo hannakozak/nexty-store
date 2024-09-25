@@ -25,7 +25,7 @@ const documents = {
     "query CategoriesGetList($query: String!) {\n  categories(where: {_search: $query}) {\n    ...Category\n  }\n}": types.CategoriesGetListDocument,
     "fragment Category on Category {\n  id\n  name\n  slug\n  image {\n    id\n    url\n  }\n}": types.CategoryFragmentDoc,
     "fragment Collection on Collection {\n  id\n  name\n  slug\n  image {\n    id\n    url\n  }\n}": types.CollectionFragmentDoc,
-    "query CollectionsGetList($query: String!) {\n  collections(where: {_search: $query}) {\n    ...Collection\n  }\n}": types.CollectionsGetListDocument,
+    "query CollectionsGetList {\n  collections {\n    ...Collection\n  }\n}": types.CollectionsGetListDocument,
     "query ProductGetById($id: ID!) {\n  product(where: {id: $id}) {\n    ...ProductItem\n  }\n}": types.ProductGetByIdDocument,
     "query ProductGetReviewsRating($id: ID!) {\n  reviewsConnection(where: {product: {id: $id}}) {\n    edges {\n      node {\n        rating\n      }\n    }\n    aggregate {\n      count\n    }\n  }\n}": types.ProductGetReviewsRatingDocument,
     "fragment ProductItem on Product {\n  id\n  name\n  description\n  categories(first: 1) {\n    name\n  }\n  images(first: 1) {\n    url\n  }\n  price\n  averageRating\n}": types.ProductItemFragmentDoc,
@@ -90,7 +90,7 @@ export function graphql(source: "fragment Collection on Collection {\n  id\n  na
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query CollectionsGetList($query: String!) {\n  collections(where: {_search: $query}) {\n    ...Collection\n  }\n}"): typeof import('./graphql').CollectionsGetListDocument;
+export function graphql(source: "query CollectionsGetList {\n  collections {\n    ...Collection\n  }\n}"): typeof import('./graphql').CollectionsGetListDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

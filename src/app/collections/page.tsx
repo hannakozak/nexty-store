@@ -7,12 +7,14 @@ type CollectionsPageProps = {
 };
 
 export default async function CollectionsPage({ searchParams }: CollectionsPageProps) {
-	const query = searchParams?.query || "";
-
-	const collections = await getCollectionsList(query);
+	const collections = await getCollectionsList();
 	if (!collections) {
 		notFound();
 	}
 
-	return <CollectionsList collections={collections} />;
+	return (
+		<div className="mt-20">
+			<CollectionsList collections={collections} />
+		</div>
+	);
 }

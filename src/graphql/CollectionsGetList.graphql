@@ -1,5 +1,5 @@
-query CollectionsGetList($query: String!) {
-	collections(where: { _search: $query }) {
+query CollectionsGetList {
+	collections {
 		...Collection
 	}
 }

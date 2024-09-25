@@ -4,7 +4,7 @@ import { type CollectionFragment } from "@/gql/graphql";
 
 export const CollectionsList = async ({ collections }: { collections: CollectionFragment[] }) => {
 	return (
-		<ul className="my-10 mt-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+		<ul className="my-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
 			{collections.map((collection) => (
 				<li key={collection.id}>
 					<Link href={`/collections/${collection.slug}?page=1`}>

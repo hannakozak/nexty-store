@@ -10893,9 +10893,7 @@ export type CategoryFragment = { id: string, name: string, slug: string, image?:
 
 export type CollectionFragment = { id: string, name: string, slug: string, image: { id: string, url: string } };
 
-export type CollectionsGetListQueryVariables = Exact<{
-  query: Scalars['String']['input'];
-}>;
+export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CollectionsGetListQuery = { collections: Array<{ id: string, name: string, slug: string, image: { id: string, url: string } }> };
@@ -11233,8 +11231,8 @@ export const CategoriesGetListDocument = new TypedDocumentString(`
   }
 }`) as unknown as TypedDocumentString<CategoriesGetListQuery, CategoriesGetListQueryVariables>;
 export const CollectionsGetListDocument = new TypedDocumentString(`
-    query CollectionsGetList($query: String!) {
-  collections(where: {_search: $query}) {
+    query CollectionsGetList {
+  collections {
     ...Collection
   }
 }
