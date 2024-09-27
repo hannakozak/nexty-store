@@ -1,0 +1,10 @@
+query VariantsGetWaxtype($id: ID!) {
+	product(where: { id: $id }) {
+		variants {
+			... on ProductVariantWaxType {
+				id
+				name
+			}
+		}
+	}
+}
