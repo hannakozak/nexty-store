@@ -19,7 +19,7 @@ export default async function SearchPage({
 	}
 
 	return (
-		<Suspense>
+		<Suspense fallback={<h2>Loading...</h2>}>
 			<ProductsList products={products} />
 		</Suspense>
 	);

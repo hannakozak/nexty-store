@@ -1,15 +1,14 @@
 "use client";
-import { useDebounce } from "@/hooks/useDebounce";
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
 
 export const SearchInput = () => {
 	const searchParams = useSearchParams();
 	const router = useRouter();
 	const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
-	const debouncedSearchTerm = useDebounce(searchQuery, 500);
+	const deferredQuery = useDeferredValue(searchQuery);
 
 	const handleSearch = (event: React.FormEvent) => {
 		event.preventDefault();
@@ -19,10 +18,10 @@ export const SearchInput = () => {
 	};
 
 	useEffect(() => {
-		if (debouncedSearchTerm) {
-			router.push(`/search?query=${debouncedSearchTerm}`);
+		if (deferredQuery) {
+			router.push(`/search?query=${deferredQuery}`);
 		}
-	}, [debouncedSearchTerm, router]);
+	}, [deferredQuery, router]);
 
 	return (
 		<div className="relative flex items-center justify-end md:justify-start">
