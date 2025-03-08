@@ -49,7 +49,7 @@
 		// we allow empty interfaces
 		"no-empty-pattern": "off",
 		"@typescript-eslint/no-empty-interface": "off",
-
+		"@typescript-eslint/no-misused-promises": "off",
 		// we allow empty functions
 		"@typescript-eslint/no-empty-function": "off",
 
