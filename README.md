@@ -1,4 +1,4 @@
-# \\\Nexty E-commerse
+# Nexty E-commerse
 
 ### Build with
 
@@ -13,11 +13,17 @@
 ### Features
 
 ✅ Product listings
+
 ✅ Search functionality
+
 ✅ Pagination
+
 ✅ Sorting options
+
 ✅ Cart management
+
 ✅ Payment processing via Stripe
+
 ✅ Product reviews
 
 ### Disclaimer
