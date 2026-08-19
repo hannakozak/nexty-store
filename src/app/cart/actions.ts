@@ -8,7 +8,7 @@ import { CartRemoveProductDocument, CartChangeItemQuantityDocument } from "@/gql
 import { executeGraphql } from "@/api/graphqlApi";
 import { getCartFromCookies } from "@/api/cart";
 
-export const removeItem = (itemId: string) => {
+export const removeItem = async (itemId: string) => {
 	return executeGraphql({
 		query: CartRemoveProductDocument,
 		variables: {
@@ -68,7 +68,8 @@ export async function handleStripePaymentAction() {
 	});
 
 	if (session.url) {
-		cookies().set("cartId", "");
+		const cookieStore = await cookies();
+		cookieStore.set("cartId", "");
 		redirect(session.url);
 	}
 }

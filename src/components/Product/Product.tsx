@@ -13,7 +13,7 @@ export const Product = ({ product }: ProductProps) => {
 		"use server";
 		const cart = await getOrCreateCart();
 		await addProductToCart(cart.id, product.id);
-		revalidateTag("cart");
+		revalidateTag("cart", "max");
 	}
 	return (
 		<article className="mx-auto mt-20 grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2 md:gap-16">
