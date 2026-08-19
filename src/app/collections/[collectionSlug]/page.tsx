@@ -4,18 +4,24 @@ import { ProductsList } from "@/components/productsList/ProductsList";
 import { Pagination } from "@/components/Pagination/Pagination";
 
 type CollectionPageProps = {
-	params: { collectionSlug: string };
-	searchParams: { page: string; query?: string };
+	params: Promise<{
+		collectionSlug: string;
+	}>;
+	searchParams: Promise<{
+		page: string;
+		query?: string;
+	}>;
 };
 
 export default async function CollectionPage({ params, searchParams }: CollectionPageProps) {
-	const query = searchParams?.query || "";
-	const currentPage = Number(searchParams?.page) || 1;
+	const { collectionSlug } = await params;
+	const { query = "", page = "1" } = await searchParams;
+	const currentPage = Number(page) || 1;
 
-	const productsTotalCount = await getProductsTotalCountByCollectionSlug(params.collectionSlug);
+	const productsTotalCount = await getProductsTotalCountByCollectionSlug(collectionSlug);
 	const totalPages = Math.ceil(productsTotalCount / 8);
 
-	const products = await getProductsByCollectionSLug(params.collectionSlug, currentPage, query);
+	const products = await getProductsByCollectionSLug(collectionSlug, currentPage, query);
 	if (!products) {
 		return notFound();
 	}

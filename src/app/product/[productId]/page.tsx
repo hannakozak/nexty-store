@@ -6,22 +6,25 @@ import { getReviewsByProductId } from "@/api/reviews";
 import { AddReview } from "@/app/product/AddReview";
 
 type SingleProductPageProps = {
-	params: { productId: ProductListItemFragment["id"] };
+	params: Promise<{
+		productId: string;
+	}>;
 };
 
 export default async function SingleProductPage({ params }: SingleProductPageProps) {
-	const product = await getProductById(params.productId);
+	const { productId } = await params;
+	const product = await getProductById(productId);
 	if (!product) {
 		return notFound();
 	}
 
-	const reviews = await getReviewsByProductId(params.productId);
+	const reviews = await getReviewsByProductId(productId);
 
 	return (
 		<>
 			<Product product={product} />
 			<aside>
-				<AddReview reviews={reviews} productId={params.productId} />
+				<AddReview reviews={reviews} productId={productId} />
 			</aside>
 		</>
 	);

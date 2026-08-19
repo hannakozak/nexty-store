@@ -3,11 +3,11 @@ import { getCategoriesList } from "@/api/categories";
 import { CategoriesList } from "@/components/CategoriesList/CategoriesList";
 
 type CategoriesPageProps = {
-	searchParams: { query?: string };
+	searchParams: Promise<{ query?: string }>;
 };
 
 export default async function CategoryProductPage({ searchParams }: CategoriesPageProps) {
-	const query = searchParams?.query || "";
+	const { query = "" } = await searchParams;
 
 	const categories = await getCategoriesList(query);
 	if (!categories) {

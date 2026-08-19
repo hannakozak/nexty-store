@@ -4,12 +4,12 @@ import { ProductsList } from "@/components/productsList/ProductsList";
 import { Pagination } from "@/components/Pagination/Pagination";
 
 type ProductsPageProps = {
-	searchParams: { page: string; query?: string };
+	searchParams: Promise<{ page: string; query?: string }>;
 };
 
 const ProductsPage = async ({ searchParams }: ProductsPageProps) => {
-	const query = searchParams?.query || "";
-	const currentPage = Number(searchParams?.page) || 1;
+	const { query = "", page = "1" } = await searchParams;
+	const currentPage = Number(page) || 1;
 
 	const productsTotalCount = await getProductsTotalCount();
 	const totalPages = Math.ceil(productsTotalCount / 8);
