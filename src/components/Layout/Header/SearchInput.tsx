@@ -40,7 +40,7 @@ export const SearchInput = () => {
 			>
 				<form
 					onSubmit={handleSearch}
-					className="relative mx-auto mt-4 flex w-11/12 items-center rounded-full border border-gray-300 bg-white px-2 py-2 md:mt-0 md:w-64"
+					className="relative mx-auto mt-4 flex w-11/12 items-center rounded-full border border-[#EAE3D9] px-3 py-2 md:mt-0 md:w-64"
 				>
 					<label htmlFor="search" className="sr-only">
 						Search
@@ -48,13 +48,13 @@ export const SearchInput = () => {
 					<input
 						id="search"
 						type="text"
-						className="flex-grow px-2 pl-5 focus:outline-none"
+						className="flex-grow bg-transparent px-2 pl-3 text-sm text-[#29251F] placeholder:text-stone-400 focus:outline-none"
 						placeholder="Search..."
 						defaultValue={searchParams.get("query")?.toString()}
 						onChange={(e) => setSearchQuery(e.target.value)}
 					/>
 
-					<Search className="absolute right-3 h-6 w-6" />
+					<Search className="absolute right-3 h-5 w-5 text-[#70452C]" />
 				</form>
 			</div>
 		</div>

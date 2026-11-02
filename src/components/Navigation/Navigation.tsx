@@ -1,4 +1,5 @@
 "use client";
+
 import { type UrlObject } from "url";
 import { type Route } from "next";
 import { useState } from "react";
@@ -17,10 +18,12 @@ const navLinks: NavLinksProps[] = [
 	{ href: "/categories", label: "Categories", exact: false },
 	{ href: "/collections", label: "Collections", exact: false },
 ];
+
 export const Navigation = () => {
 	const [isOpen, setIsOpen] = useState(false);
+
 	return (
-		<nav className="justify-center">
+		<nav className="flex items-center">
 			<button
 				onClick={() => setIsOpen(!isOpen)}
 				type="button"
@@ -30,19 +33,20 @@ export const Navigation = () => {
 				<Menu className={`fill-current ${isOpen ? "hidden" : "block"}`} />
 				<X className={`fill-current ${isOpen ? "block" : "hidden"}`} />
 			</button>
+
 			<div
 				className={`block w-full flex-grow lg:flex lg:w-auto lg:items-center ${
 					isOpen ? "block" : "hidden"
 				}`}
 			>
-				<ul className="flex w-screen flex-col lg:flex-row">
+				<ul className="flex flex-col lg:w-auto lg:flex-row lg:items-center lg:gap-8">
 					{navLinks.map(({ href, label, exact }) => (
-						<li key={label} className="block py-2 pl-3 pr-4" onClick={() => setIsOpen(!isOpen)}>
+						<li key={label} className="block py-2 lg:px-0" onClick={() => setIsOpen(!isOpen)}>
 							<ActiveLink
 								href={href}
 								exact={exact}
-								className="font-semibold text-gray-600 hover:text-gray-800"
-								activeClassName="text-gray-800 border border-2 border-b-gray-800"
+								className="text-sm font-medium text-stone-600 transition-colors hover:text-amber-900"
+								activeClassName="text-amber-900 border-b-2 border-amber-900 pb-1"
 							>
 								{label}
 							</ActiveLink>

@@ -11,27 +11,38 @@ export const Header = async () => {
 	const totalQuantity = cart?.orderItems.reduce((sum, item) => sum + item.quantity, 0);
 
 	return (
-		<header className="fixed top-0 flex w-full flex-col bg-white">
-			<div className="mx-auto h-12 w-20">
-				<NextImage
-					src="/images/Nexty.png"
-					width={400}
-					height={400}
-					alt="Picture of the author"
-					className="aspect-square object-contain object-center"
-				/>
-			</div>
-			<div className="flex w-full border-b-2 px-6 py-3 lg:flex-row lg:justify-between">
-				<Navigation />
-				<nav className="fixed right-2 flex gap-3">
-					<Link href={"/cart"} className="group -m-2 flex items-center p-2">
-						<ShoppingCart />
-						{cart && <span className="ml-2 text-sm font-medium">{totalQuantity}</span>}
-						<span className="sr-only">Items in cart, view bag</span>
-					</Link>
+		<header className="fixed top-0 z-50 w-full border-b border-stone-200 bg-white">
+			<div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-6 py-4">
+				<div className="justify-start">
+					<Navigation />
+				</div>
+				<Link href="/" className="shrink-0">
+					<NextImage
+						src="/images/Nexty.png"
+						width={120}
+						height={60}
+						alt="Nexty"
+						className="h-12 w-auto object-contain"
+					/>
+				</Link>
+				<nav className="flex shrink-0 items-center gap-5">
 					<Suspense>
 						<SearchInput />
 					</Suspense>
+
+					<Link
+						href="/cart"
+						className="relative flex items-center justify-center p-2"
+						aria-label={`Shopping cart, ${totalQuantity ?? 0} items`}
+					>
+						<ShoppingCart size={23} strokeWidth={1.7} />
+
+						{totalQuantity ? (
+							<span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-900 px-1 text-xs text-white">
+								{totalQuantity}
+							</span>
+						) : null}
+					</Link>
 				</nav>
 			</div>
 		</header>
